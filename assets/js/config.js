@@ -8,7 +8,7 @@ export const APP_CONFIG = {
   version: "1.0.0",
   user: {
     name: "Quản trị viên",
-    initials: "QT",
+    initials: "HD",
   },
   defaultRoute: "#/dashboard",
 };

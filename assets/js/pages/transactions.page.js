@@ -210,7 +210,8 @@ function handleSubmit(e, type) {
  */
 function renderTable() {
   const wrap = pageContainer.querySelector("#transactions-table");
-  const transactions = filterTransactions(historyFilter);
+const transactions = filterTransactions(historyFilter)
+  .filter((tx) => getProductById(tx.productId));
 
   const columns = [
     {
@@ -226,10 +227,8 @@ function renderTable() {
       label: "Sản phẩm",
       render: (t) => {
         const p = getProductById(t.productId);
-        return p
-          ? `<span class="cell-strong">${escapeHtml(p.name)}</span>`
-          : '<span class="muted">Sản phẩm đã xoá</span>';
-      },
+        return `<span class="cell-strong">${escapeHtml(p.name)}</span>`;
+},
     },
     {
       key: "quantity",
