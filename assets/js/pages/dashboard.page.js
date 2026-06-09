@@ -12,12 +12,9 @@ import {
   calculateInventoryValue,
   escapeHtml,
 } from "../core/helpers.js";
-import { getProducts, getLowStockProducts } from "../services/product.service.js";
-import { getCategories, getCategoryById } from "../services/category.service.js";
-import {
-  getRecentTransactions,
-} from "../services/transaction.service.js";
-import { getProductById } from "../services/product.service.js";
+import { getProducts, getLowStockProducts, getProductById } from "../services/product.service.js";
+import { getRecentTransactions, getTransactions } from "../services/transaction.service.js";
+import { getCategoryById } from "../services/category.service.js";
 
 /**
  * Render một thẻ thống kê.
@@ -96,17 +93,40 @@ function lowStockHtml() {
 }
 
 /**
+ * Tính tổng thu nhập và lợi nhuận từ các giao dịch xuất kho.
+ */
+function salesSummary() {
+  const products = getProducts();
+  const productMap = new Map(products.map((p) => [p.id, p]));
+  const exportTransactions = getTransactions().filter((tx) => tx.type === "export");
+
+  return exportTransactions.reduce(
+    (summary, tx) => {
+      const product = productMap.get(tx.productId);
+      if (!product) return summary;
+
+      const quantity = Number(tx.quantity) || 0;
+      const sellPrice = Number(product.sellPrice) || 0;
+      const importPrice = Number(product.importPrice) || 0;
+
+      summary.revenue += quantity * sellPrice;
+      summary.profit += quantity * (sellPrice - importPrice);
+      return summary;
+    },
+    { revenue: 0, profit: 0 }
+  );
+}
+
+/**
  * Render toàn bộ trang dashboard.
  */
 export function renderDashboardPage(container) {
   const products = getProducts();
-  const categories = getCategories();
 
   const totalProducts = products.length;
   const totalQuantity = calculateTotalQuantity(products);
-  const lowStockCount = getLowStockProducts().length;
-  const totalCategories = categories.length;
   const inventoryValue = calculateInventoryValue(products);
+  const sales = salesSummary();
 
   container.innerHTML = `
     <div class="stats-grid">
@@ -123,16 +143,16 @@ export function renderDashboardPage(container) {
         label: "Tổng tồn kho",
       })}
       ${statCard({
-        iconName: "warning",
-        color: "orange",
-        value: formatNumber(lowStockCount),
-        label: "Sắp / hết hàng",
+        iconName: "wallet",
+        color: "green",
+        value: formatCurrency(sales.revenue),
+        label: "Thu nhập",
       })}
       ${statCard({
-        iconName: "tag",
+        iconName: "check",
         color: "blue",
-        value: formatNumber(totalCategories),
-        label: "Danh mục",
+        value: formatCurrency(sales.profit),
+        label: "Lợi nhuận",
       })}
       ${statCard({
         iconName: "wallet",

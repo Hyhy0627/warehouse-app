@@ -15,9 +15,6 @@ export function validateProduct(data) {
   if (!data.name || !data.name.trim()) {
     errors.name = "Vui lòng nhập tên sản phẩm.";
   }
-  if (!data.categoryId) {
-    errors.categoryId = "Vui lòng chọn danh mục.";
-  }
   if (data.quantity === "" || data.quantity === null || data.quantity === undefined) {
     errors.quantity = "Vui lòng nhập số lượng.";
   } else if (Number(data.quantity) < 0 || Number.isNaN(Number(data.quantity))) {

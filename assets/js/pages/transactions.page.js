@@ -8,7 +8,6 @@ import { showToast } from "../components/toast.js";
 import { formatDate, formatNumber, escapeHtml } from "../core/helpers.js";
 import { validateTransaction } from "../core/validators.js";
 import { getProducts, getProductById } from "../services/product.service.js";
-import { openProductForm } from "./products.page.js";
 import {
   filterTransactions,
   createImportTransaction,
@@ -23,12 +22,17 @@ let historyFilter = ""; // "" | "import" | "export"
  */
 function productOptions(showStock = false) {
   return getProducts()
-    .map(
-      (p) =>
-        `<option value="${p.id}">${escapeHtml(p.code)} - ${escapeHtml(p.name)}${
-          showStock ? ` (tồn: ${p.quantity})` : ""
-        }</option>`
-    )
+    .map((p) => {
+      const isOutOfStock = Number(p.quantity) <= 0;
+
+      return `
+        <option value="${p.id}" ${isOutOfStock ? "disabled" : ""}>
+          ${escapeHtml(p.code)} - ${escapeHtml(p.name)}${
+            showStock ? ` (tồn: ${p.quantity})` : ""
+          }
+        </option>
+      `;
+    })
     .join("");
 }
 
@@ -62,15 +66,10 @@ export function renderTransactionsPage(container) {
           <form id="import-form" novalidate>
             <div class="form-group" style="margin-bottom:1rem">
               <label for="i-product">Sản phẩm</label>
-              <div class="product-select-row">
-                <select id="i-product" name="productId">
-                  <option value="">-- Chọn sản phẩm --</option>
-                  ${productOptions()}
-                </select>
-                <button type="button" id="btnOpenAddProductModal" class="btn-add-product">
-                  + Thêm sản phẩm
-                </button>
-              </div>
+              <select id="i-product" name="productId">
+                <option value="">-- Chọn sản phẩm --</option>
+                ${productOptions()}
+              </select>
               <div class="form-error" data-error="productId"></div>
             </div>
             <div class="form-group" style="margin-bottom:1rem">

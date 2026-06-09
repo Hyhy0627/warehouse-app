@@ -185,12 +185,6 @@ function renderTable() {
  */
 export function openProductForm(id = null) {
   const product = id ? getProductById(id) : null;
-  const categories = getCategories();
-
-  if (!categories.length) {
-    showToast("Vui lòng tạo danh mục trước khi thêm sản phẩm.", "error");
-    return;
-  }
 
   const body = openModal(product ? "Sửa sản phẩm" : "Thêm sản phẩm", `
     <form id="product-form" novalidate>
@@ -204,21 +198,6 @@ export function openProductForm(id = null) {
           <label for="f-name">Tên sản phẩm</label>
           <input id="f-name" name="name" value="${product ? escapeHtml(product.name) : ""}" placeholder="Tên sản phẩm" />
           <div class="form-error" data-error="name"></div>
-        </div>
-        <div class="form-group">
-          <label for="f-category">Danh mục</label>
-          <select id="f-category" name="categoryId">
-            <option value="">-- Chọn danh mục --</option>
-            ${categories
-              .map(
-                (c) =>
-                  `<option value="${c.id}" ${
-                    product && product.categoryId === c.id ? "selected" : ""
-                  }>${escapeHtml(c.name)}</option>`
-              )
-              .join("")}
-          </select>
-          <div class="form-error" data-error="categoryId"></div>
         </div>
         <div class="form-group">
           <label for="f-quantity">Số lượng</label>

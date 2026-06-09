@@ -34,7 +34,7 @@ function normalize(data) {
   return {
     code: data.code.trim(),
     name: data.name.trim(),
-    categoryId: data.categoryId,
+    categoryId: data.categoryId?.trim() || "",
     quantity: Number(data.quantity) || 0,
     importPrice: Number(data.importPrice) || 0,
     sellPrice: Number(data.sellPrice) || 0,
