@@ -32,17 +32,30 @@ function statCard({ iconName, color, value, label }) {
 /**
  * Render danh sách giao dịch gần đây.
  */
+// function recentTransactionsHtml() {
+//   const transactions = getRecentTransactions(6);
+//   if (!transactions.length) {
+//     return '<div class="empty-state">Chưa có giao dịch nào.</div>';
+//   }
 function recentTransactionsHtml() {
-  const transactions = getRecentTransactions(6);
+  const transactions = getTransactions()
+    .filter((tx) => getProductById(tx.productId))
+    .slice(-6)
+    .reverse();
+
   if (!transactions.length) {
-    return '<div class="empty-state">Chưa có giao dịch nào.</div>';
+    return `
+      <div class="empty-state">
+        Không có lịch sử giao dịch gần đây.
+      </div>
+    `;
   }
 
   return transactions
     .map((tx) => {
       const product = getProductById(tx.productId);
       const isImport = tx.type === "import";
-      const name = product ? escapeHtml(product.name) : "Sản phẩm đã xoá";
+//      const name = product ? escapeHtml(product.name) : "Sản phẩm đã xoá";
       return `
         <div class="tx-item">
           <div class="tx-item__icon tx-item__icon--${isImport ? "in" : "out"}">
@@ -66,26 +79,67 @@ function recentTransactionsHtml() {
 /**
  * Render danh sách hàng sắp hết.
  */
+// function lowStockHtml() {
+//   const lowStock = getLowStockProducts();
+//   if (!lowStock.length) {
+//     return '<div class="empty-state">Tất cả sản phẩm đều còn đủ hàng. 👍</div>';
+//   }
+
+//   return lowStock
+//     .map((p) => {
+//       const status = getProductStatus(p.quantity);
+//       const category = getCategoryById(p.categoryId);
+//       return `
+//         <div class="tx-item">
+//           <div class="tx-item__icon tx-item__icon--out">${icon("warning")}</div>
+//           <div class="tx-item__info">
+//             <div class="tx-item__name">${escapeHtml(p.name)}</div>
+//             <div class="tx-item__meta">
+//               ${escapeHtml(p.code)} • ${category ? escapeHtml(category.name) : "—"}
+//             </div>
+//           </div>
+//           <span class="badge ${status.badgeClass}">${status.label}: ${p.quantity}</span>
+//         </div>
+//       `;
+//     })
+//     .join("");
+// }
+
 function lowStockHtml() {
-  const lowStock = getLowStockProducts();
-  if (!lowStock.length) {
-    return '<div class="empty-state">Tất cả sản phẩm đều còn đủ hàng. 👍</div>';
+  const products = getProducts();
+
+  if (!products.length) {
+    return `
+      <div class="empty-state">
+        Chưa có sản phẩm nào.
+      </div>
+    `;
   }
 
-  return lowStock
-    .map((p) => {
-      const status = getProductStatus(p.quantity);
-      const category = getCategoryById(p.categoryId);
+  const lowStockProducts = products.filter((product) => {
+    return Number(product.quantity) <= Number(product.minQuantity);
+  });
+
+  if (!lowStockProducts.length) {
+    return `
+      <div class="empty-state">
+        Tất cả sản phẩm đều còn đủ hàng. 👍
+      </div>
+    `;
+  }
+
+  return lowStockProducts
+    .map((product) => {
       return `
-        <div class="tx-item">
-          <div class="tx-item__icon tx-item__icon--out">${icon("warning")}</div>
-          <div class="tx-item__info">
-            <div class="tx-item__name">${escapeHtml(p.name)}</div>
-            <div class="tx-item__meta">
-              ${escapeHtml(p.code)} • ${category ? escapeHtml(category.name) : "—"}
+        <div class="low-stock-item">
+          <div>
+            <div class="low-stock-item__name">
+              ${escapeHtml(product.name)}
+            </div>
+            <div class="low-stock-item__meta">
+              Tồn kho: ${formatNumber(product.quantity)} / Tối thiểu: ${formatNumber(product.minQuantity)}
             </div>
           </div>
-          <span class="badge ${status.badgeClass}">${status.label}: ${p.quantity}</span>
         </div>
       `;
     })
