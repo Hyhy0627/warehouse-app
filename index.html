@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kho Hàng - Hệ thống quản lý hàng hoá</title>
+    <meta name="description" content="Hệ thống quản lý hàng hoá, kho bãi đơn giản và hiện đại." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar"></aside>
+
+      <!-- Backdrop for mobile sidebar -->
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+      <!-- Main area -->
+      <div class="main">
+        <header class="header" id="header"></header>
+        <main class="content" id="app-content"></main>
+      </div>
+    </div>
+
+    <!-- Modal container -->
+    <div class="modal-root" id="modal-root"></div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toast-root"></div>
+
+    <!-- App entry point -->
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

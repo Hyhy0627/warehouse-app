@@ -1,0 +1,225 @@
+/* ============================
+   layout.css - Bố cục dashboard
+   ============================ */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background-color: var(--color-sidebar);
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0 auto 0 0;
+  height: 100vh;
+  z-index: 40;
+  transition: transform var(--transition);
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.3rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar__logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--color-primary);
+}
+
+.sidebar__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.sidebar__subtitle {
+  font-size: 0.72rem;
+  color: var(--color-sidebar-muted);
+}
+
+.sidebar__nav {
+  padding: 1rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.sidebar__section-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-sidebar-muted);
+  padding: 0.6rem 0.8rem 0.3rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-sidebar-muted);
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.nav-link.active {
+  background-color: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.nav-link .icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.sidebar__footer {
+  padding: 1rem 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: var(--color-sidebar-muted);
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  z-index: 35;
+}
+
+/* ---------- Main ---------- */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ---------- Header ---------- */
+.header {
+  height: var(--header-height);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.header__menu-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+.header__menu-btn:hover {
+  background-color: var(--color-bg);
+}
+
+.header__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.header__subtitle {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.header__date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+/* ---------- Content ---------- */
+.content {
+  padding: 1.6rem;
+  flex: 1;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar.open + .sidebar-backdrop {
+    display: block;
+  }
+  .main {
+    margin-left: 0;
+  }
+  .header__menu-btn {
+    display: flex;
+  }
+  .header__date {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .content {
+    padding: 1rem;
+  }
+  .header {
+    padding: 0 1rem;
+  }
+}

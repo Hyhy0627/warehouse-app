@@ -1,0 +1,51 @@
+/* ============================
+   variables.css - Biến toàn cục
+   ============================ */
+
+:root {
+  /* Màu thương hiệu */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-soft: #eff4ff;
+
+  /* Trạng thái */
+  --color-success: #16a34a;
+  --color-success-soft: #e7f7ed;
+  --color-warning: #ea8a0c;
+  --color-warning-soft: #fdf2e2;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fdeaea;
+  --color-danger-hover: #b91c1c;
+
+  /* Nền & chữ */
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-sidebar: #0f172a;
+  --color-sidebar-muted: #94a3b8;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-row-hover: #f8fafc;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", var(--font-sans);
+
+  /* Bo góc */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.16);
+
+  /* Kích thước layout */
+  --sidebar-width: 248px;
+  --header-height: 68px;
+
+  /* Transition */
+  --transition: 0.18s ease;
+}
